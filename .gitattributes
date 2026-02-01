@@ -1,0 +1,2 @@
+data/committee_transaction_summaries_1980-2026.csv filter=lfs diff=lfs merge=lfs -text
+data/committee_to_candidate_summaries_1980-2026.csv filter=lfs diff=lfs merge=lfs -text
