@@ -580,8 +580,37 @@ class BioguideProcessor:
         # Combine all matches
         all_matches = authoritative_matches + name_matches
 
-        # Remove duplicates (prefer authoritative over name_match)
-        console.print("\n[bold]Step 3:[/bold] Deduplicating and finalizing...")
+        # Remove duplicates and conflicts
+        console.print("\n[bold]Step 3:[/bold] Deduplicating and resolving conflicts...")
+
+        # First, identify FEC IDs that have authoritative matches
+        authoritative_fec_ids = {e["cand_id"] for e in authoritative_matches}
+
+        # Remove name_match entries for FEC IDs that have authoritative matches
+        # (unless it's the same bioguide - which would be redundant anyway)
+        filtered_name_matches = [
+            e for e in name_matches
+            if e["cand_id"] not in authoritative_fec_ids
+        ]
+        conflicts_removed = len(name_matches) - len(filtered_name_matches)
+        if conflicts_removed > 0:
+            console.print(f"  → Removed {conflicts_removed} name matches that conflict with authoritative matches")
+
+        # Also remove name_match entries where same FEC ID maps to different bioguides (ambiguous)
+        fec_to_bioguides = {}
+        for e in filtered_name_matches:
+            fec_id = e["cand_id"]
+            if fec_id not in fec_to_bioguides:
+                fec_to_bioguides[fec_id] = set()
+            fec_to_bioguides[fec_id].add(e["bioguide_id"])
+
+        ambiguous_fec_ids = {fec_id for fec_id, bios in fec_to_bioguides.items() if len(bios) > 1}
+        if ambiguous_fec_ids:
+            console.print(f"  → Removed {len(ambiguous_fec_ids)} FEC IDs with ambiguous name matches (multiple Congress members)")
+            filtered_name_matches = [e for e in filtered_name_matches if e["cand_id"] not in ambiguous_fec_ids]
+
+        # Now deduplicate (cand_id, bioguide_id) pairs
+        all_matches = authoritative_matches + filtered_name_matches
         seen = {}
         for entry in all_matches:
             key = (entry["cand_id"], entry["bioguide_id"])

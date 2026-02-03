@@ -562,7 +562,6 @@ H2MS04258,E000235,authoritative,high
 H2MT01060,D000618,authoritative,high
 H2NC01065,C000494,authoritative,high
 H2NC01081,J000255,authoritative,high
-H2NC01081,J000256,name_match,high
 H2NC01131,B001238,name_match,high
 H2NC02022,V000006,name_match,high
 H2NC02287,D000230,authoritative,high
@@ -645,7 +644,6 @@ H2OH14064,J000295,authoritative,high
 H2OH15046,P000555,authoritative,high
 H2OH15228,C001126,authoritative,high
 H2OH16051,M001222,authoritative,high
-H2OH17075,A000220,name_match,high
 H2OH17109,R000577,authoritative,high
 H2OH19048,F000059,name_match,high
 H2OH19097,F000128,name_match,high
@@ -870,8 +868,6 @@ H4KY01040,W000413,authoritative,high
 H4KY02030,L000293,authoritative,high
 H4KY03061,W000139,name_match,high
 H4KY06072,C001058,authoritative,high
-H4KY07013,P000230,name_match,high
-H4KY07013,P000229,name_match,high
 H4LA00016,J000287,authoritative,high
 H4LA03028,M001161,authoritative,high
 H4LA05130,M001192,authoritative,high
@@ -1269,8 +1265,6 @@ H6KY03090,N000143,authoritative,high
 H6KY03124,Y000062,authoritative,high
 H6KY05012,C000201,name_match,high
 H6KY06085,F000441,authoritative,high
-H6KY07026,P000230,name_match,high
-H6KY07026,P000229,name_match,high
 H6LA01084,L000371,name_match,high
 H6LA02017,B000592,name_match,high
 H6LA03023,T000362,name_match,high
@@ -1484,7 +1478,6 @@ H6OH14040,S000094,authoritative,high
 H6OH15039,W000781,name_match,high
 H6OH15104,K000372,authoritative,high
 H6OH16029,R000141,authoritative,high
-H6OH17027,A000221,name_match,high
 H6OH18066,A000214,name_match,high
 H6OH18157,S001173,authoritative,high
 H6OH20138,O000001,name_match,high
@@ -1558,7 +1551,6 @@ H6TN07039,J000216,name_match,high
 H6TN07161,V000139,authoritative,high
 H6TN08037,F000261,name_match,high
 H6TN09043,F000262,authoritative,high
-H6TN09043,F000261,name_match,high
 H6TN09068,C001068,authoritative,high
 H6TX00115,R000170,authoritative,high
 H6TX01022,H000070,name_match,high
@@ -1935,7 +1927,6 @@ H8SD01014,D000064,authoritative,high
 H8SD01055,J000301,authoritative,high
 H8TN00022,B000996,authoritative,high
 H8TN02069,D000533,authoritative,high
-H8TN02069,D000534,name_match,high
 H8TN02119,B001309,authoritative,high
 H8TN05021,B000615,name_match,high
 H8TN06094,R000612,authoritative,high
