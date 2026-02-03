@@ -41,6 +41,7 @@ The following steps were taken to prepare this dataset:
 ```
 data/
 ├── all_candidate_summaries_1980-2026.csv           8.5 MB
+├── cand_id_bioguide_crosswalk.csv                  62 KB
 ├── candidate_committee_links_2000-2026.csv         3.6 MB
 ├── candidate_registrations_1980-2026.csv           13 MB
 ├── committee_registrations_1980-2026.csv           38 MB
@@ -52,6 +53,7 @@ data/
 ├── pac_party_summaries_1996-2026.csv               17 MB
 └── metadata/
     ├── all_candidate_summaries.md
+    ├── bioguide_crosswalk.md
     ├── candidate_committee_links.md
     ├── candidate_registrations.md
     ├── committee_registrations.md
@@ -73,6 +75,7 @@ These files combine all election cycles with an `election_cycle` column added:
 | File | Years | Rows | Description |
 |------|-------|------|-------------|
 | `all_candidate_summaries_1980-2026.csv` | 1980-2026 | 69,349 | Financial summaries for all candidates |
+| `cand_id_bioguide_crosswalk.csv` | N/A | 1,710 | FEC-to-Bioguide ID crosswalk for Congress members |
 | `candidate_registrations_1980-2026.csv` | 1980-2026 | 129,198 | Basic candidate registration info |
 | `candidate_committee_links_2000-2026.csv` | 2000-2026 | 81,275 | Links between candidates and committees |
 | `committee_registrations_1980-2026.csv` | 1980-2026 | 295,946 | Basic committee registration info |
@@ -102,6 +105,10 @@ These files summarize itemized transactions with strict deduplication:
 ### all_candidate_summaries_1980-2026.csv
 
 Financial summaries for each candidate who raised or spent money. Includes total receipts, disbursements, cash-on-hand, loans, debts, and contributions.
+
+### cand_id_bioguide_crosswalk.csv
+
+Links FEC candidate IDs to Congressional Bioguide IDs for members who actually served in Congress. One bioguide_id can map to multiple cand_ids (e.g., members who served in both House and Senate). Data sourced from the [unitedstates/congress-legislators](https://github.com/unitedstates/congress-legislators) repository.
 
 ### candidate_registrations_1980-2026.csv
 

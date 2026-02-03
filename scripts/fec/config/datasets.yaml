@@ -1,0 +1,362 @@
+# FEC Dataset Configuration
+# Defines how each dataset is sourced, processed, and stored
+
+# FEC base URL for bulk data downloads
+fec_base_url: "https://www.fec.gov/files/bulk-downloads"
+
+# Combine datasets: Simple concatenation with election_cycle column
+# These are summary records - one row per entity per cycle, no deduplication needed
+combine_datasets:
+  all_candidate_summaries:
+    output_file: "all_candidate_summaries_1980-2026.csv"
+    fec_prefix: "weball"
+    start_year: 1980
+    description: "Financial summaries per candidate per cycle"
+    columns:
+      - cand_id
+      - cand_name
+      - cand_ici
+      - pty_cd
+      - cand_pty_affiliation
+      - ttl_receipts
+      - trans_from_auth
+      - ttl_disb
+      - trans_to_auth
+      - coh_bop
+      - coh_cop
+      - cand_contrib
+      - cand_loans
+      - other_loans
+      - cand_loan_repay
+      - other_loan_repay
+      - debts_owed_by
+      - ttl_indiv_contrib
+      - cand_office_st
+      - cand_office_district
+      - spec_election
+      - prim_election
+      - run_election
+      - gen_election
+      - gen_election_precent
+      - other_pol_cmte_contrib
+      - pol_pty_contrib
+      - cvg_end_dt
+      - indiv_refunds
+      - cmte_refunds
+
+  candidate_registrations:
+    output_file: "candidate_registrations_1980-2026.csv"
+    fec_prefix: "cn"
+    start_year: 1980
+    description: "Candidate registration info"
+    columns:
+      - cand_id
+      - cand_name
+      - cand_pty_affiliation
+      - cand_election_yr
+      - cand_office_st
+      - cand_office
+      - cand_office_district
+      - cand_ici
+      - cand_status
+      - cand_pcc
+      - cand_st1
+      - cand_st2
+      - cand_city
+      - cand_st
+      - cand_zip
+
+  candidate_committee_links:
+    output_file: "candidate_committee_links_2000-2026.csv"
+    fec_prefix: "ccl"
+    start_year: 2000
+    description: "Candidate-to-committee links"
+    columns:
+      - cand_id
+      - cand_election_yr
+      - fec_election_yr
+      - cmte_id
+      - cmte_tp
+      - cmte_dsgn
+      - linkage_id
+
+  committee_registrations:
+    output_file: "committee_registrations_1980-2026.csv"
+    fec_prefix: "cm"
+    start_year: 1980
+    description: "Committee registration info"
+    columns:
+      - cmte_id
+      - cmte_nm
+      - tres_nm
+      - cmte_st1
+      - cmte_st2
+      - cmte_city
+      - cmte_st
+      - cmte_zip
+      - cmte_dsgn
+      - cmte_tp
+      - cmte_pty_affiliation
+      - cmte_filing_freq
+      - org_tp
+      - connected_org_nm
+      - cand_id
+
+  house_senate_campaign_summaries:
+    output_file: "house_senate_campaign_summaries_1996-2026.csv"
+    fec_prefix: "webl"
+    start_year: 1996
+    description: "House/Senate financials"
+    columns:
+      - cand_id
+      - cand_name
+      - cand_ici
+      - pty_cd
+      - cand_pty_affiliation
+      - ttl_receipts
+      - trans_from_auth
+      - ttl_disb
+      - trans_to_auth
+      - coh_bop
+      - coh_cop
+      - cand_contrib
+      - cand_loans
+      - other_loans
+      - cand_loan_repay
+      - other_loan_repay
+      - debts_owed_by
+      - ttl_indiv_contrib
+      - cand_office_st
+      - cand_office_district
+      - spec_election
+      - prim_election
+      - run_election
+      - gen_election
+      - gen_election_precent
+      - other_pol_cmte_contrib
+      - pol_pty_contrib
+      - cvg_end_dt
+      - indiv_refunds
+      - cmte_refunds
+
+  pac_party_summaries:
+    output_file: "pac_party_summaries_1996-2026.csv"
+    fec_prefix: "webk"
+    start_year: 1996
+    description: "PAC/party financials"
+    columns:
+      - cmte_id
+      - cmte_nm
+      - cmte_tp
+      - cmte_dsgn
+      - cmte_filing_freq
+      - ttl_receipts
+      - trans_from_aff
+      - indv_contrib
+      - other_pol_cmte_contrib
+      - cand_contrib
+      - cand_loans
+      - ttl_loans_received
+      - ttl_disb
+      - trans_to_aff
+      - indv_refunds
+      - other_pol_cmte_refunds
+      - cand_loan_repay
+      - loan_repay
+      - coh_bop
+      - coh_cop
+      - debts_owed_by
+      - nonfed_trans_received
+      - contrib_to_other_cmte
+      - ind_exp
+      - pty_coord_exp
+      - nonfed_share_exp
+      - cvg_end_dt
+
+# Summarize datasets: Aggregation with deduplication for transaction data
+# These are itemized transactions - need to filter memos/amendments and aggregate
+summarize_datasets:
+  committee_transaction_summaries:
+    output_file: "committee_transaction_summaries_1980-2026.csv"
+    fec_prefix: "oth"
+    start_year: 1980
+    description: "Committee-to-committee transactions (aggregated)"
+    group_by:
+      - election_cycle
+      - transaction_year
+      - source_cmte_id
+      - dest_cmte_id
+      - dest_name
+      - transaction_tp
+    # Mapping from output column names to input column names
+    column_mapping:
+      source_cmte_id: cmte_id
+      dest_cmte_id: other_id
+      dest_name: name
+      transaction_tp: transaction_tp
+    amount_field: transaction_amt
+    date_field: transaction_dt
+    memo_field: memo_cd
+    amendment_field: amndt_ind
+    sub_id_field: sub_id
+    # Raw input columns from FEC file
+    input_columns:
+      - cmte_id
+      - amndt_ind
+      - rpt_tp
+      - transaction_pgi
+      - image_num
+      - transaction_tp
+      - entity_tp
+      - name
+      - city
+      - state
+      - zip_code
+      - employer
+      - occupation
+      - transaction_dt
+      - transaction_amt
+      - other_id
+      - tran_id
+      - file_num
+      - memo_cd
+      - memo_text
+      - sub_id
+
+  committee_to_candidate_summaries:
+    output_file: "committee_to_candidate_summaries_1980-2026.csv"
+    fec_prefix: "pas2"
+    start_year: 1980
+    description: "Committee-to-candidate contributions (aggregated)"
+    group_by:
+      - election_cycle
+      - transaction_year
+      - cmte_id
+      - cmte_name
+      - cand_id
+      - transaction_tp
+    column_mapping:
+      cmte_id: cmte_id
+      cmte_name: name
+      cand_id: cand_id
+      transaction_tp: transaction_tp
+    amount_field: transaction_amt
+    date_field: transaction_dt
+    memo_field: memo_cd
+    amendment_field: amndt_ind
+    sub_id_field: sub_id
+    input_columns:
+      - cmte_id
+      - amndt_ind
+      - rpt_tp
+      - transaction_pgi
+      - image_num
+      - transaction_tp
+      - entity_tp
+      - name
+      - city
+      - state
+      - zip_code
+      - employer
+      - occupation
+      - transaction_dt
+      - transaction_amt
+      - cand_id
+      - tran_id
+      - file_num
+      - memo_cd
+      - memo_text
+      - sub_id
+
+  expenditures_by_category:
+    output_file: "expenditures_by_category_2004-2026.csv"
+    fec_prefix: "oppexp"
+    start_year: 2004
+    description: "Spending by disbursement category"
+    group_by:
+      - election_cycle
+      - transaction_year
+      - cmte_id
+      - category
+      - category_desc
+    column_mapping:
+      cmte_id: cmte_id
+      category: category
+      category_desc: category_desc
+    amount_field: transaction_amt
+    date_field: transaction_dt
+    memo_field: memo_cd
+    amendment_field: amndt_ind
+    sub_id_field: sub_id
+    input_columns:
+      - cmte_id
+      - amndt_ind
+      - rpt_yr
+      - rpt_tp
+      - image_num
+      - line_num
+      - form_tp_cd
+      - sched_tp_cd
+      - name
+      - city
+      - state
+      - zip_code
+      - transaction_dt
+      - transaction_amt
+      - transaction_pgi
+      - purpose
+      - category
+      - category_desc
+      - memo_cd
+      - memo_text
+      - entity_tp
+      - sub_id
+      - file_num
+      - tran_id
+      - back_ref_tran_id
+
+  expenditures_by_state:
+    output_file: "expenditures_by_state_2004-2026.csv"
+    fec_prefix: "oppexp"
+    start_year: 2004
+    description: "Spending by payee state"
+    group_by:
+      - election_cycle
+      - transaction_year
+      - cmte_id
+      - state
+    column_mapping:
+      cmte_id: cmte_id
+      state: state
+    amount_field: transaction_amt
+    date_field: transaction_dt
+    memo_field: memo_cd
+    amendment_field: amndt_ind
+    sub_id_field: sub_id
+    # Uses same input file as expenditures_by_category
+    input_columns:
+      - cmte_id
+      - amndt_ind
+      - rpt_yr
+      - rpt_tp
+      - image_num
+      - line_num
+      - form_tp_cd
+      - sched_tp_cd
+      - name
+      - city
+      - state
+      - zip_code
+      - transaction_dt
+      - transaction_amt
+      - transaction_pgi
+      - purpose
+      - category
+      - category_desc
+      - memo_cd
+      - memo_text
+      - entity_tp
+      - sub_id
+      - file_num
+      - tran_id
+      - back_ref_tran_id
