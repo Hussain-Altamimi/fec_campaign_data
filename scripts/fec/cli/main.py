@@ -56,6 +56,7 @@ from .individual import individual
 from .bioguide import bioguide
 from .capitalize import capitalize
 from .dates import dates
+from .congress_api import congress
 
 cli.add_command(update)
 cli.add_command(verify)
@@ -63,6 +64,7 @@ cli.add_command(individual)
 cli.add_command(bioguide)
 cli.add_command(capitalize)
 cli.add_command(dates)
+cli.add_command(congress)
 
 
 def main() -> None:
