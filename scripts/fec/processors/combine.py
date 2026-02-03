@@ -7,6 +7,7 @@ from rich.console import Console
 
 from ..config import CombineDataset
 from ..utils.io import atomic_write_csv, read_fec_pipe_delimited
+from ..utils.dates import convert_to_iso_date
 from ..utils.names import capitalize_name
 
 console = Console()
@@ -41,6 +42,16 @@ class CombineProcessor:
                     df = df.with_columns(
                         pl.col(col)
                         .map_elements(capitalize_name, return_dtype=pl.Utf8)
+                        .alias(col)
+                    )
+
+        # Apply date conversion to ISO 8601 if configured
+        if self.dataset.date_columns:
+            for col in self.dataset.date_columns:
+                if col in df.columns:
+                    df = df.with_columns(
+                        pl.col(col)
+                        .map_elements(convert_to_iso_date, return_dtype=pl.Utf8)
                         .alias(col)
                     )
 

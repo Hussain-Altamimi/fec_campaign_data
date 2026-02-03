@@ -14,6 +14,8 @@ combine_datasets:
     description: "Financial summaries per candidate per cycle"
     name_columns:
       - cand_name
+    date_columns:
+      - cvg_end_dt
     columns:
       - cand_id
       - cand_name
@@ -117,6 +119,8 @@ combine_datasets:
     description: "House/Senate financials"
     name_columns:
       - cand_name
+    date_columns:
+      - cvg_end_dt
     columns:
       - cand_id
       - cand_name
@@ -156,6 +160,8 @@ combine_datasets:
     description: "PAC/party financials"
     name_columns:
       - cmte_nm
+    date_columns:
+      - cvg_end_dt
     columns:
       - cmte_id
       - cmte_nm

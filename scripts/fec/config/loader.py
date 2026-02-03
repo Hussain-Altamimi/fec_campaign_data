@@ -20,6 +20,7 @@ class CombineDataset:
     description: str
     columns: list[str]
     name_columns: list[str] = field(default_factory=list)
+    date_columns: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -68,6 +69,7 @@ class Config:
                 description=cfg["description"],
                 columns=cfg["columns"],
                 name_columns=cfg.get("name_columns", []),
+                date_columns=cfg.get("date_columns", []),
             )
 
         summarize_datasets = {}

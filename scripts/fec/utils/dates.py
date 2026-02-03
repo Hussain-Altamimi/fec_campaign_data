@@ -93,3 +93,68 @@ def extract_month_from_date(date_str: str | None) -> int | None:
             return None
 
     return None
+
+
+def convert_to_iso_date(date_str: str | None) -> str | None:
+    """Convert FEC date to ISO 8601 (YYYY-MM-DD) format.
+
+    Handles MMDDYYYY, MDDYYYY, and MM/DD/YYYY formats.
+
+    Args:
+        date_str: Date in FEC format (e.g., "12/31/2024" or "12312024")
+
+    Returns:
+        Date in YYYY-MM-DD format (e.g., "2024-12-31"), or None if invalid/empty
+    """
+    if not date_str or not isinstance(date_str, str):
+        return None
+
+    date_str = date_str.strip()
+    if not date_str:
+        return None
+
+    month = None
+    day = None
+    year = None
+
+    # Handle MM/DD/YYYY format
+    if "/" in date_str:
+        parts = date_str.split("/")
+        if len(parts) == 3:
+            try:
+                month = int(parts[0])
+                day = int(parts[1])
+                year = int(parts[2])
+            except ValueError:
+                return None
+    # Handle MMDDYYYY format (8 chars)
+    elif len(date_str) == 8:
+        try:
+            month = int(date_str[0:2])
+            day = int(date_str[2:4])
+            year = int(date_str[4:8])
+        except ValueError:
+            return None
+    # Handle MDDYYYY format (7 chars)
+    elif len(date_str) == 7:
+        try:
+            month = int(date_str[0:1])
+            day = int(date_str[1:3])
+            year = int(date_str[3:7])
+        except ValueError:
+            return None
+    else:
+        return None
+
+    # Validate date components
+    if month is None or day is None or year is None:
+        return None
+    if not (1 <= month <= 12):
+        return None
+    if not (1 <= day <= 31):
+        return None
+    if not (1900 <= year <= 2100):
+        return None
+
+    # Return ISO 8601 format
+    return f"{year:04d}-{month:02d}-{day:02d}"

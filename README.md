@@ -35,6 +35,7 @@ The following steps were taken to prepare this dataset:
 23. Flattened directory structure: moved all CSVs to `data/` root, consolidated metadata
 24. Created candidate individual contribution summaries aggregated from itemized contributions
 25. Converted ALL-CAPS name fields to Capital Case for readability
+26. Converted date fields to ISO 8601 format (YYYY-MM-DD)
 
 ---
 
@@ -210,6 +211,7 @@ All data downloaded from: https://www.fec.gov/data/browse-data/?tab=bulk-data
 - All CSV headers are in `snake_case` format
 - All files include `election_cycle` as the first column to identify the 2-year FEC reporting period
 - Aggregated files include `transaction_year` (actual year from transaction date)
+- Date fields are in ISO 8601 format (`YYYY-MM-DD`)
 - Name fields are in Capital Case (converted from FEC's ALL-CAPS format)
 - See `metadata/*.md` files for full column definitions
 - Some financial data may be double-counted when candidates have multiple authorized committees
