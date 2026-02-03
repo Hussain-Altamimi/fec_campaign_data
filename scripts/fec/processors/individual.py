@@ -10,6 +10,7 @@ from rich.console import Console
 
 from ..utils.dates import extract_year_from_date, extract_month_from_date
 from ..utils.io import atomic_write_csv, read_fec_csv, read_fec_pipe_delimited
+from ..utils.names import capitalize_name
 from ..utils.progress import create_download_progress, create_spinner_progress
 from ..async_utils.download import download_with_retry
 
@@ -78,6 +79,16 @@ class IndividualDownloader:
                         truncate_ragged_lines=True,
                         encoding="utf8-lossy",
                     )
+
+                    # Apply name capitalization to contributor name fields
+                    name_columns = ["name", "employer", "occupation"]
+                    for col in name_columns:
+                        if col in df.columns:
+                            df = df.with_columns(
+                                pl.col(col)
+                                .map_elements(capitalize_name, return_dtype=pl.Utf8)
+                                .alias(col)
+                            )
 
                     # Prepend election_cycle column
                     df = df.with_columns(pl.lit(cycle).alias("election_cycle"))

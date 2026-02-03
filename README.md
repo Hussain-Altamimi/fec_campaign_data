@@ -2,7 +2,7 @@
 
 This repository contains bulk data files downloaded from the Federal Election Commission (FEC). The data covers federal campaign finance records from 1980 to 2026.
 
-**Total size: 581 MB**
+**Total size: ~50 GB** (mostly individual contributions)
 
 ---
 
@@ -33,6 +33,8 @@ The following steps were taken to prepare this dataset:
 21. Deleted original operating_expenditures year files
 22. Converted all CSV headers to snake_case
 23. Flattened directory structure: moved all CSVs to `data/` root, consolidated metadata
+24. Created candidate individual contribution summaries aggregated from itemized contributions
+25. Converted ALL-CAPS name fields to Capital Case for readability
 
 ---
 
@@ -40,17 +42,18 @@ The following steps were taken to prepare this dataset:
 
 ```
 data/
-├── all_candidate_summaries_1980-2026.csv           8.5 MB
-├── cand_id_bioguide_crosswalk.csv                  62 KB
-├── candidate_committee_links_2000-2026.csv         3.6 MB
-├── candidate_registrations_1980-2026.csv           13 MB
-├── committee_registrations_1980-2026.csv           38 MB
-├── committee_to_candidate_summaries_1980-2026.csv  202 MB
-├── committee_transaction_summaries_1980-2026.csv   271 MB
-├── expenditures_by_category_2004-2026.csv          6.1 MB
-├── expenditures_by_state_2004-2026.csv             9.3 MB
-├── house_senate_campaign_summaries_1996-2026.csv   4.3 MB
-├── pac_party_summaries_1996-2026.csv               17 MB
+├── all_candidate_summaries_1980-2026.csv                    8.5 MB
+├── cand_id_bioguide_crosswalk.csv                           62 KB
+├── candidate_committee_links_2000-2026.csv                  3.6 MB
+├── candidate_individual_contribution_summaries_1980-2026.csv  2.5 MB
+├── candidate_registrations_1980-2026.csv                    13 MB
+├── committee_registrations_1980-2026.csv                    38 MB
+├── committee_to_candidate_summaries_1980-2026.csv           202 MB
+├── committee_transaction_summaries_1980-2026.csv            271 MB
+├── expenditures_by_category_2004-2026.csv                   6.1 MB
+├── expenditures_by_state_2004-2026.csv                      9.3 MB
+├── house_senate_campaign_summaries_1996-2026.csv            4.3 MB
+├── pac_party_summaries_1996-2026.csv                        17 MB
 └── metadata/
     ├── all_candidate_summaries.md
     ├── bioguide_crosswalk.md
@@ -62,6 +65,12 @@ data/
     ├── house_senate_campaign_summaries.md
     ├── operating_expenditures.md
     └── pac_party_summaries.md
+
+individual_contributions/
+├── 1980_individual_contributions.csv
+├── 1982_individual_contributions.csv
+├── ...
+└── 2026_individual_contributions.csv
 ```
 
 ---
@@ -72,31 +81,43 @@ data/
 
 These files combine all election cycles with an `election_cycle` column added:
 
-| File | Years | Rows | Description |
-|------|-------|------|-------------|
-| `all_candidate_summaries_1980-2026.csv` | 1980-2026 | 69,349 | Financial summaries for all candidates |
-| `cand_id_bioguide_crosswalk.csv` | N/A | 1,710 | FEC-to-Bioguide ID crosswalk for Congress members |
-| `candidate_registrations_1980-2026.csv` | 1980-2026 | 129,198 | Basic candidate registration info |
-| `candidate_committee_links_2000-2026.csv` | 2000-2026 | 81,275 | Links between candidates and committees |
-| `committee_registrations_1980-2026.csv` | 1980-2026 | 295,946 | Basic committee registration info |
-| `house_senate_campaign_summaries_1996-2026.csv` | 1996-2026 | 32,192 | House/Senate campaign financials |
-| `pac_party_summaries_1996-2026.csv` | 1996-2026 | 139,884 | PAC and party committee financials |
+| File                                                         | Years     | Rows    | Description                                       |
+| ------------------------------------------------------------ | --------- | ------- | ------------------------------------------------- |
+| `all_candidate_summaries_1980-2026.csv`                      | 1980-2026 | 69,349  | Financial summaries for all candidates            |
+| `cand_id_bioguide_crosswalk.csv`                             | N/A       | 1,710   | FEC-to-Bioguide ID crosswalk for Congress members |
+| `candidate_individual_contribution_summaries_1980-2026.csv`  | 1980-2026 | 62,000  | Individual contributions aggregated by candidate  |
+| `candidate_registrations_1980-2026.csv`                      | 1980-2026 | 129,198 | Basic candidate registration info                 |
+| `candidate_committee_links_2000-2026.csv`                    | 2000-2026 | 81,275  | Links between candidates and committees           |
+| `committee_registrations_1980-2026.csv`                      | 1980-2026 | 295,946 | Basic committee registration info                 |
+| `house_senate_campaign_summaries_1996-2026.csv`              | 1996-2026 | 32,192  | House/Senate campaign financials                  |
+| `pac_party_summaries_1996-2026.csv`                          | 1996-2026 | 139,884 | PAC and party committee financials                |
 
 ### Aggregated Transaction Files
 
 These files summarize itemized transactions with strict deduplication:
 
-| File | Years | Rows | Description |
-|------|-------|------|-------------|
-| `committee_transaction_summaries_1980-2026.csv` | 1980-2026 | 3,752,745 | Committee-to-committee transactions |
+| File                                             | Years     | Rows      | Description                           |
+| ------------------------------------------------ | --------- | --------- | ------------------------------------- |
+| `committee_transaction_summaries_1980-2026.csv`  | 1980-2026 | 3,752,745 | Committee-to-committee transactions   |
 | `committee_to_candidate_summaries_1980-2026.csv` | 1980-2026 | 2,793,458 | Committee contributions to candidates |
-| `expenditures_by_category_2004-2026.csv` | 2004-2026 | 129,311 | Spending by disbursement category |
-| `expenditures_by_state_2004-2026.csv` | 2004-2026 | 318,655 | Spending by payee state |
+| `expenditures_by_category_2004-2026.csv`         | 2004-2026 | 129,311   | Spending by disbursement category     |
+| `expenditures_by_state_2004-2026.csv`            | 2004-2026 | 318,655   | Spending by payee state               |
 
 **Exclusions to prevent double-counting:**
+
 - Memo transactions (`memo_cd = 'X'`)
 - Amended filings (`amndt_ind != 'N'`)
 - Duplicate `sub_id` values
+
+### Individual Contributions
+
+Itemized individual contributions are in `individual_contributions/` (not `data/`), split by election cycle:
+
+| File Pattern                        | Years     | Total Rows | Total Size |
+| ----------------------------------- | --------- | ---------- | ---------- |
+| `YYYY_individual_contributions.csv` | 1980-2026 | 271M       | 49 GB      |
+
+These files are large. Recent cycles (2016+) are multi-gigabyte due to small-dollar online fundraising. Each file includes `election_cycle` and `transaction_year` columns.
 
 ---
 
@@ -109,6 +130,10 @@ Financial summaries for each candidate who raised or spent money. Includes total
 ### cand_id_bioguide_crosswalk.csv
 
 Links FEC candidate IDs to Congressional Bioguide IDs for members who actually served in Congress. One bioguide_id can map to multiple cand_ids (e.g., members who served in both House and Senate). Data sourced from the [unitedstates/congress-legislators](https://github.com/unitedstates/congress-legislators) repository.
+
+### candidate_individual_contribution_summaries_1980-2026.csv
+
+Individual contributions aggregated by candidate, election cycle, and transaction year. Derived from the itemized individual contributions files. Includes `bioguide_id` for Congress members.
 
 ### candidate_registrations_1980-2026.csv
 
@@ -148,9 +173,28 @@ Committee spending aggregated by payee state for geographic analysis.
 
 ---
 
+## Name Formatting
+
+All name fields have been converted from ALL-CAPS (as provided by FEC) to Capital Case for readability:
+
+- `SMITH, JOHN JR` → `Smith, John Jr`
+- `O'BRIEN, PAT` → `O'Brien, Pat`
+- `MCDONALD, RONALD` → `McDonald, Ronald`
+- `AFL-CIO COPE COMMITTEE` → `AFL-CIO Cope Committee`
+
+Special handling for:
+- Suffixes: Jr, Sr, II, III, IV (Roman numerals stay uppercase)
+- Irish prefixes: O'Brien, O'Connor
+- Scottish prefixes: McDonald, McConnell
+- Common acronyms: AFL-CIO, PAC, USA, SEIU, etc.
+- Abbreviations: Int'l, Ass'n
+
+---
+
 ## Metadata
 
 Each CSV file has a corresponding markdown file in `data/metadata/` with:
+
 - Source URL
 - Column definitions
 - Notes on data exclusions and aggregation methodology
@@ -166,5 +210,6 @@ All data downloaded from: https://www.fec.gov/data/browse-data/?tab=bulk-data
 - All CSV headers are in `snake_case` format
 - All files include `election_cycle` as the first column to identify the 2-year FEC reporting period
 - Aggregated files include `transaction_year` (actual year from transaction date)
+- Name fields are in Capital Case (converted from FEC's ALL-CAPS format)
 - See `metadata/*.md` files for full column definitions
 - Some financial data may be double-counted when candidates have multiple authorized committees

@@ -41,6 +41,7 @@ These files are large (49 GB total). Recent cycles (2016+) are multi-gigabyte du
 - All files include `election_cycle` as the first column to identify the 2-year FEC reporting period
 - Aggregated transaction files also include `transaction_year` (the actual year from transaction dates), `total_amount`, and `transaction_count`
 - Transaction data excludes memos (`memo_cd = 'X'`), amendments (`amndt_ind != 'N'`), and duplicate `sub_id` values to prevent double-counting
+- Name fields are in Capital Case (converted from FEC's ALL-CAPS format) with special handling for suffixes (Jr, Sr, II, III), Irish/Scottish prefixes (O', Mc), and common acronyms (AFL-CIO, PAC, etc.)
 
 ## Working with This Data
 
@@ -136,6 +137,26 @@ python -m fec bioguide create
 # Dry run
 python -m fec bioguide create --dry-run
 ```
+
+### Name Capitalization Commands
+
+Convert ALL-CAPS names to Capital Case:
+
+```bash
+# Test capitalization on a single name
+python -m fec capitalize test "SMITH, JOHN JR"
+
+# Preview migration (dry run)
+python -m fec capitalize migrate --dry-run
+
+# Migrate main data files
+python -m fec capitalize migrate
+
+# Also migrate individual contributions (large files, takes longer)
+python -m fec capitalize migrate --include-individual
+```
+
+Note: Future data updates via `python -m fec update run` automatically apply capitalization during processing.
 
 ### Legacy Scripts (Deprecated)
 

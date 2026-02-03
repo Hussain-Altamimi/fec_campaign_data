@@ -8,6 +8,7 @@ from rich.console import Console
 from ..config import SummarizeDataset
 from ..utils.dates import extract_year_from_date
 from ..utils.io import atomic_write_csv, read_fec_pipe_delimited
+from ..utils.names import capitalize_name
 from ..utils.progress import create_spinner_progress
 
 console = Console()
@@ -95,6 +96,16 @@ class SummarizeProcessor:
             select_cols.append(pl.col(self.dataset.amount_field).alias("amount"))
 
             df = df.select(select_cols)
+
+            # Apply name capitalization if configured
+            if self.dataset.name_columns:
+                for col in self.dataset.name_columns:
+                    if col in df.columns:
+                        df = df.with_columns(
+                            pl.col(col)
+                            .map_elements(capitalize_name, return_dtype=pl.Utf8)
+                            .alias(col)
+                        )
 
             # Group and aggregate
             result = (

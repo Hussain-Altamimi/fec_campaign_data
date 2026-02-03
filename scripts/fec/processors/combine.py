@@ -7,6 +7,7 @@ from rich.console import Console
 
 from ..config import CombineDataset
 from ..utils.io import atomic_write_csv, read_fec_pipe_delimited
+from ..utils.names import capitalize_name
 
 console = Console()
 
@@ -32,6 +33,16 @@ class CombineProcessor:
 
         # Read pipe-delimited file using shared utility
         df = read_fec_pipe_delimited(input_file, self.dataset.columns)
+
+        # Apply name capitalization if configured
+        if self.dataset.name_columns:
+            for col in self.dataset.name_columns:
+                if col in df.columns:
+                    df = df.with_columns(
+                        pl.col(col)
+                        .map_elements(capitalize_name, return_dtype=pl.Utf8)
+                        .alias(col)
+                    )
 
         # Prepend election_cycle column
         df = df.with_columns(pl.lit(cycle).alias("election_cycle"))

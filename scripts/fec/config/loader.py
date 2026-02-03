@@ -19,6 +19,7 @@ class CombineDataset:
     start_year: int
     description: str
     columns: list[str]
+    name_columns: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -38,6 +39,7 @@ class SummarizeDataset:
     amendment_field: str
     sub_id_field: str
     input_columns: list[str]
+    name_columns: list[str] = field(default_factory=list)
 
 
 @dataclass
@@ -65,6 +67,7 @@ class Config:
                 start_year=cfg["start_year"],
                 description=cfg["description"],
                 columns=cfg["columns"],
+                name_columns=cfg.get("name_columns", []),
             )
 
         summarize_datasets = {}
@@ -83,6 +86,7 @@ class Config:
                 amendment_field=cfg["amendment_field"],
                 sub_id_field=cfg["sub_id_field"],
                 input_columns=cfg["input_columns"],
+                name_columns=cfg.get("name_columns", []),
             )
 
         state_file = data_dir.parent / ".fec_update_state.json"

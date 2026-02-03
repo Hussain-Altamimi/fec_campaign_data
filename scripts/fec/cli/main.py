@@ -54,11 +54,13 @@ from .update import update
 from .verify import verify
 from .individual import individual
 from .bioguide import bioguide
+from .capitalize import capitalize
 
 cli.add_command(update)
 cli.add_command(verify)
 cli.add_command(individual)
 cli.add_command(bioguide)
+cli.add_command(capitalize)
 
 
 def main() -> None:

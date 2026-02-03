@@ -12,6 +12,8 @@ combine_datasets:
     fec_prefix: "weball"
     start_year: 1980
     description: "Financial summaries per candidate per cycle"
+    name_columns:
+      - cand_name
     columns:
       - cand_id
       - cand_name
@@ -49,6 +51,8 @@ combine_datasets:
     fec_prefix: "cn"
     start_year: 1980
     description: "Candidate registration info"
+    name_columns:
+      - cand_name
     columns:
       - cand_id
       - cand_name
@@ -85,6 +89,10 @@ combine_datasets:
     fec_prefix: "cm"
     start_year: 1980
     description: "Committee registration info"
+    name_columns:
+      - cmte_nm
+      - tres_nm
+      - connected_org_nm
     columns:
       - cmte_id
       - cmte_nm
@@ -107,6 +115,8 @@ combine_datasets:
     fec_prefix: "webl"
     start_year: 1996
     description: "House/Senate financials"
+    name_columns:
+      - cand_name
     columns:
       - cand_id
       - cand_name
@@ -144,6 +154,8 @@ combine_datasets:
     fec_prefix: "webk"
     start_year: 1996
     description: "PAC/party financials"
+    name_columns:
+      - cmte_nm
     columns:
       - cmte_id
       - cmte_nm
@@ -181,6 +193,8 @@ summarize_datasets:
     fec_prefix: "oth"
     start_year: 1980
     description: "Committee-to-committee transactions (aggregated)"
+    name_columns:
+      - dest_name
     group_by:
       - election_cycle
       - transaction_year
@@ -228,6 +242,8 @@ summarize_datasets:
     fec_prefix: "pas2"
     start_year: 1980
     description: "Committee-to-candidate contributions (aggregated)"
+    name_columns:
+      - cmte_name
     group_by:
       - election_cycle
       - transaction_year
