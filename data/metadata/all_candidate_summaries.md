@@ -10,7 +10,7 @@ Summary financial information for each candidate who raised or spent money durin
 
 | Column | Description |
 |--------|-------------|
-| `year` | Election cycle (added during consolidation) |
+| `election_cycle` | 2-year FEC reporting period (added during consolidation) |
 | `cand_id` | Candidate identification (9-character code) |
 | `cand_name` | Candidate name |
 | `cand_ici` | Incumbent/challenger status (I/C/O) |

@@ -10,7 +10,7 @@ Basic information for each candidate registered with the FEC, including candidat
 
 | Column | Description |
 |--------|-------------|
-| `year` | Election cycle (added during consolidation) |
+| `election_cycle` | 2-year FEC reporting period (added during consolidation) |
 | `cand_id` | Candidate identification (9-character code, consistent across cycles for same office) |
 | `cand_name` | Candidate name |
 | `cand_pty_affiliation` | Party affiliation code |

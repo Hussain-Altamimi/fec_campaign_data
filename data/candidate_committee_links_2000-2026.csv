@@ -1,4 +1,4 @@
-year,cand_id,cand_election_yr,fec_election_yr,cmte_id,cmte_tp,cmte_dsgn,linkage_id
+election_cycle,cand_id,cand_election_yr,fec_election_yr,cmte_id,cmte_tp,cmte_dsgn,linkage_id
 2000,H0AK00055,2000,2000,C00361626,H,P,54
 2000,H0AL02061,2000,2000,C00362657,H,P,85
 2000,H0AL02079,2000,2000,C00359406,H,P,87

@@ -26,8 +26,8 @@ All CSV files are in `data/` with corresponding documentation in `data/metadata/
 ## Key Data Conventions
 
 - All headers are `snake_case`
-- Combined files include a `year` column for election cycle identification
-- Aggregated transaction files include `election_cycle`, `transaction_year`, `total_amount`, and `transaction_count`
+- All files include `election_cycle` as the first column to identify the 2-year FEC reporting period
+- Aggregated transaction files also include `transaction_year` (the actual year from transaction dates), `total_amount`, and `transaction_count`
 - Transaction data excludes memos (`memo_cd = 'X'`), amendments (`amndt_ind != 'N'`), and duplicate `sub_id` values to prevent double-counting
 
 ## Working with This Data

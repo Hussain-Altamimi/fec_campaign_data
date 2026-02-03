@@ -10,7 +10,7 @@ Basic information for each committee registered with the FEC, including PACs, pa
 
 | Column | Description |
 |--------|-------------|
-| `year` | Election cycle (added during consolidation) |
+| `election_cycle` | 2-year FEC reporting period (added during consolidation) |
 | `cmte_id` | Committee identification (9-character code, consistent across cycles) |
 | `cmte_nm` | Committee name |
 | `tres_nm` | Treasurer's name |

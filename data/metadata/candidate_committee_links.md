@@ -10,7 +10,7 @@ Links candidates to their authorized committees, showing the relationship betwee
 
 | Column | Description |
 |--------|-------------|
-| `year` | Election cycle (added during consolidation) |
+| `election_cycle` | 2-year FEC reporting period (added during consolidation) |
 | `cand_id` | Candidate identification (9-character code) |
 | `cand_election_yr` | Candidate's election year |
 | `fec_election_yr` | Active 2-year period |

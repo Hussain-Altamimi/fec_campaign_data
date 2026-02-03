@@ -68,7 +68,7 @@ data/
 
 ### Combined Files
 
-These files combine all election cycles with a `year` column added:
+These files combine all election cycles with an `election_cycle` column added:
 
 | File | Years | Rows | Description |
 |------|-------|------|-------------|
@@ -157,7 +157,7 @@ All data downloaded from: https://www.fec.gov/data/browse-data/?tab=bulk-data
 ## Notes
 
 - All CSV headers are in `snake_case` format
-- Combined files include a `year` or `election_cycle` column to identify the reporting period
+- All files include `election_cycle` as the first column to identify the 2-year FEC reporting period
 - Aggregated files include `transaction_year` (actual year from transaction date)
 - See `metadata/*.md` files for full column definitions
 - Some financial data may be double-counted when candidates have multiple authorized committees

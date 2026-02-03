@@ -10,7 +10,7 @@ Summary financial information for House and Senate campaign committees only. One
 
 | Column | Description |
 |--------|-------------|
-| `year` | Election cycle (added during consolidation) |
+| `election_cycle` | 2-year FEC reporting period (added during consolidation) |
 | `cand_id` | Candidate identification |
 | `cand_name` | Candidate name |
 | `cand_ici` | Incumbent/challenger status |

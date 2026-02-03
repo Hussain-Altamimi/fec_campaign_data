@@ -10,7 +10,7 @@ Summary financial information for PACs and party committees. One record per comm
 
 | Column | Description |
 |--------|-------------|
-| `year` | Election cycle (added during consolidation) |
+| `election_cycle` | 2-year FEC reporting period (added during consolidation) |
 | `cmte_id` | Committee identification |
 | `cmte_nm` | Committee name |
 | `cmte_tp` | Committee type |
